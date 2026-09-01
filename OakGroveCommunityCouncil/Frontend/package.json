@@ -2,6 +2,7 @@
   "name": "frontend",
   "private": true,
   "type": "module",
+  "packageManager": "yarn@4.18.0",
   "imports": {
     "#/*": "./src/*"
   },
@@ -36,11 +37,5 @@
     "prettier": "^3.8.1",
     "typescript": "^6.0.2",
     "vite": "^8.0.0"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "lightningcss"
-    ]
   }
 }
