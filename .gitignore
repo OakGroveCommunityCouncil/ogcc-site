@@ -2,3 +2,6 @@
 **/bin
 *.user
 **/.idea
+**/.terraform
+*.tfvars
+*.tfstate*
