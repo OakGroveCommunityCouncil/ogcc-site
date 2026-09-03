@@ -1,5 +1,5 @@
 export const AppHeader = () => {
-  return(
+  return (
     <>
       <div>This is our header</div>
     </>
