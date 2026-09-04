@@ -10,7 +10,9 @@ terraform {
 
 provider "azurerm" {
   features {}
+  tenant_id       = var.tenant_id
   subscription_id = var.subscription_id
+  client_id       = var.client_id
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -30,4 +32,9 @@ resource "azurerm_static_web_app" "frontend" {
 
   sku_tier = "Free"
   sku_size = "Free"
+}
+
+output "frontend_url" {
+  description = "URL for the Static Web App"
+  value       = "https://${azurerm_static_web_app.frontend.default_host_name}"
 }

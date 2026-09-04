@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: 'Terraform-Infra'
 
 on:
   push:
@@ -7,6 +7,15 @@ on:
 
 permissions:
   contents: read
+  id-token: write # Required for OIDC authentication with Azure
+
+env: # note all Terraform variables must be environment variables with the format "TF_VAR_<variable_name>"
+  TF_VAR_tenant_id: ${{ vars.AZURE_TENANT_ID }}
+  TF_VAR_subscription_id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+  TF_VAR_client_id: ${{ vars.AZURE_CLIENT_ID }}
+  TF_VAR_resource_group_name: ${{ vars.AZURE_RESOURCE_GROUP_NAME }}
+  TF_VAR_resource_group_location: ${{ vars.AZURE_RESOURCE_GROUP_LOCATION }}
+  TF_VAR_static_web_app_name: ${{ vars.AZURE_STATIC_WEB_APP_NAME }}
 
 jobs:
   terraform:
