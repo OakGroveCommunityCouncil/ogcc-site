@@ -5,13 +5,18 @@ on:
     branches:
       - 'main'
     paths:
-      - 'infra/**'
+      - 'infra/**' # Only run this if something in the infastructure directory changed
+    types:
+      - opened
+      - synchronize # This is GitHub-speak for updated
+      - reopened
+      - closed
 
 permissions:
   contents: read
   id-token: write # Required for OIDC authentication with Azure
 
-env: # note all Terraform variables must be environment variables with the format "TF_VAR_<variable_name>"
+env: # Note all Terraform variables must be environment variables with the format "TF_VAR_<variable_name>"
   TF_VAR_tenant_id: ${{ vars.AZURE_TENANT_ID }}
   TF_VAR_subscription_id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
   TF_VAR_client_id: ${{ vars.AZURE_CLIENT_ID }}
@@ -24,6 +29,7 @@ env: # note all Terraform variables must be environment variables with the forma
 jobs:
   terraform:
     name: 'Terraform'
+    if: github.event.action != 'closed' || github.event.pull_request.merged == true # If the PR was closed, only run if it was actually merged (i.e. not abandoned)
     runs-on: ubuntu-latest
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
@@ -40,7 +46,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v4
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc
     - name: Terraform Init
       run: terraform init
       working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
@@ -50,13 +56,13 @@ jobs:
       run: terraform fmt -check
       working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
 
-    # Generates an execution plan for Terraform
+    # Generate an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -input=false
       working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
 
-      # On push to "main", build or change infrastructure according to Terraform configuration files
+    # Upon PR merge, actually deploy the infrastructure
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+      if: github.event.pull_request.merged == true
       run: terraform apply -auto-approve -input=false
       working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
