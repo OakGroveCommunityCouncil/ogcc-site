@@ -16,6 +16,7 @@ env: # note all Terraform variables must be environment variables with the forma
   TF_VAR_resource_group_name: ${{ vars.AZURE_RESOURCE_GROUP_NAME }}
   TF_VAR_resource_group_location: ${{ vars.AZURE_RESOURCE_GROUP_LOCATION }}
   TF_VAR_static_web_app_name: ${{ vars.AZURE_STATIC_WEB_APP_NAME }}
+  TF_VAR_use_oidc: true
   TERRAFORM_FILES_DIRECTORY: ./infra
 
 jobs:
