@@ -1,0 +1,68 @@
+name: 'Terraform-Infra'
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+    paths:
+      - 'infra/**' # Only run this if something in the infastructure directory changed
+    types:
+      - opened
+      - synchronize # This is GitHub-speak for updated
+      - reopened
+      - closed
+
+permissions:
+  contents: read
+  id-token: write # Required for OIDC authentication with Azure
+
+env: # Note all Terraform variables must be environment variables with the format "TF_VAR_<variable_name>"
+  TF_VAR_tenant_id: ${{ vars.AZURE_TENANT_ID }}
+  TF_VAR_subscription_id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+  TF_VAR_client_id: ${{ vars.AZURE_CLIENT_ID }}
+  TF_VAR_resource_group_name: ${{ vars.AZURE_RESOURCE_GROUP_NAME }}
+  TF_VAR_resource_group_location: ${{ vars.AZURE_RESOURCE_GROUP_LOCATION }}
+  TF_VAR_static_web_app_name: ${{ vars.AZURE_STATIC_WEB_APP_NAME }}
+  TF_VAR_use_oidc: true
+  TERRAFORM_FILES_DIRECTORY: ./infra
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    if: github.event.action != 'closed' || github.event.pull_request.merged == true # If the PR was closed, only run if it was actually merged (i.e. not abandoned)
+    runs-on: ubuntu-latest
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v7
+
+    # Install the latest version of Terraform CLI
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v4
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
+
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      run: terraform fmt -check
+      working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
+
+    # Generate an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform plan -input=false
+      working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
+
+    # Upon PR merge, actually deploy the infrastructure
+    - name: Terraform Apply
+      if: github.event.pull_request.merged == true
+      run: terraform apply -auto-approve -input=false
+      working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
