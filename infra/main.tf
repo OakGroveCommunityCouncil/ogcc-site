@@ -25,7 +25,7 @@ resource "azurerm_resource_group" "rg" {
   }
 }
 
-# For this to work, we must first run "az provider register --namespace Microsoft.Web" while logged into the Subscription
+# For this to work, we must first run "az provider register --namespace Microsoft.Web" once while logged into the Subscription
 resource "azurerm_static_web_app" "frontend" {
   name                = var.static_web_app_name
   resource_group_name = azurerm_resource_group.rg.name

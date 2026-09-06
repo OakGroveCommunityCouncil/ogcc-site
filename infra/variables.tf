@@ -25,7 +25,7 @@ variable "resource_group_name" {
 
 variable "resource_group_location" {
   type        = string
-  description = "Azure location for the resource group"
+  description = "Location for the Azure Resource Group"
 }
 
 variable "static_web_app_name" {
