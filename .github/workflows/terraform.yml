@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths:
-      - infra/** # Only run this if something in the infastructure directory changed
+      - infra/** # Only run this if something in the infrastructure directory changed...
+      - .github/workflows/terraform.yml # ... or if this file itself changed
     types:
       - opened
       - synchronize # This is GitHub-speak for updated

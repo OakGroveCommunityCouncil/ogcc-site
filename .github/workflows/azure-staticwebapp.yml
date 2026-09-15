@@ -9,7 +9,8 @@ on:
     branches:
       - main
     paths:
-      - OakGroveCommunityCouncil/Frontend/** # Only run this if something in the frontend changed
+      - OakGroveCommunityCouncil/Frontend/** # Only run this if something in the frontend changed...
+      - .github/workflows/azure-staticwebapp.yml # ... or if this file itself changed
 
 env:
   APP_LOCATION: OakGroveCommunityCouncil/Frontend # Location of client code
