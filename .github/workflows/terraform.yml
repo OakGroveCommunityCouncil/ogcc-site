@@ -1,11 +1,12 @@
-name: 'Terraform-Infra'
+name: Terraform-Infra
 
 on:
   pull_request:
     branches:
-      - 'main'
+      - main
     paths:
-      - 'infra/**' # Only run this if something in the infastructure directory changed
+      - infra/** # Only run this if something in the infrastructure directory changed...
+      - .github/workflows/terraform.yml # ... or if this file itself changed
     types:
       - opened
       - synchronize # This is GitHub-speak for updated
@@ -33,7 +34,7 @@ env:
 
 jobs:
   terraform:
-    name: 'Terraform'
+    name: Terraform
     if: github.event.action != 'closed' || github.event.pull_request.merged == true # If the PR was closed, only run if it was actually merged (i.e. not abandoned)
     runs-on: ubuntu-latest
 
@@ -43,36 +44,36 @@ jobs:
         shell: bash
 
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v7
-
-    # Install the latest version of Terraform CLI
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v4
-
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc
-    - name: Terraform Init
-      run: |
-        terraform init \
-          -backend-config="storage_account_name=${{ vars.AZURE_TERRAFORM_BACKEND_STORAGE_ACCOUNT_NAME }}" \
-          -backend-config="container_name=${{ vars.AZURE_TERRAFORM_BACKEND_CONTAINER_NAME }}" \
-          -backend-config="key=${{ vars.AZURE_TERRAFORM_BACKEND_BLOB_NAME }}" \
-          -input=false
-      working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
-
-    # Checks that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Format
-      run: terraform fmt -check
-      working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
-
-    # Generate an execution plan for Terraform
-    - name: Terraform Plan
-      run: terraform plan -input=false
-      working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
-
-    # Upon PR merge, actually deploy the infrastructure
-    - name: Terraform Apply
-      if: github.event.pull_request.merged == true
-      run: terraform apply -auto-approve -input=false
-      working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v7
+      
+      # Install the latest version of Terraform CLI
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+      
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc
+      - name: Terraform Init
+        run: |
+          terraform init \
+            -backend-config="storage_account_name=${{ vars.AZURE_TERRAFORM_BACKEND_STORAGE_ACCOUNT_NAME }}" \
+            -backend-config="container_name=${{ vars.AZURE_TERRAFORM_BACKEND_CONTAINER_NAME }}" \
+            -backend-config="key=${{ vars.AZURE_TERRAFORM_BACKEND_BLOB_NAME }}" \
+            -input=false
+        working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
+      
+      # Checks that all Terraform configuration files adhere to a canonical format
+      - name: Terraform Format
+        run: terraform fmt -check
+        working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
+      
+      # Generate an execution plan for Terraform
+      - name: Terraform Plan
+        run: terraform plan -input=false
+        working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
+      
+      # Upon PR merge, actually deploy the infrastructure
+      - name: Terraform Apply
+        if: github.event.pull_request.merged == true
+        run: terraform apply -auto-approve -input=false
+        working-directory: ${{ env.TERRAFORM_FILES_DIRECTORY }}
