@@ -1,4 +1,4 @@
-import { Box, styled, Typography, Link as MuiLink } from '@mui/material'
+import { Box, styled, Typography, Link as MuiLink, Button } from '@mui/material'
 import { Link } from '@tanstack/react-router'
 
 export const AppHeader = () => {
@@ -30,15 +30,20 @@ export const AppHeader = () => {
         </MuiLink>
       </HeaderSection>
       <HeaderSection>
-        <MuiLink href="">
-          <Box>Sheriff Placeholder</Box>
-        </MuiLink>
-        <MuiLink href="">
-          <Box>Newsletter Placeholder</Box>
-        </MuiLink>
-        <MuiLink href="">
-          <Box>Emergency Placeholder</Box>
-        </MuiLink>
+        <Button href="" variant="contained" color="error">
+          Sheriff's Dept. Statistics
+        </Button>
+        <Button href="" variant="outlined">
+          Sign Up for OGCC's Email Newsletter
+        </Button>
+        <Button
+          href="https://www.clackamas.us/dm/publicalerts"
+          target="_blank"
+          variant="contained"
+          color="error"
+        >
+          Sign Up for Emergency Alerts
+        </Button>
       </HeaderSection>
       <NavSection>
         <Link to="/">Home</Link>
