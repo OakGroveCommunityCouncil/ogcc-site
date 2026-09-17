@@ -5,7 +5,7 @@ export const AppHeader = () => {
   return (
     <Box>
       <HeaderSection sx={{ background: '#43a102' }}>
-        {/* TODO: Logo */}
+        {/* TODO: Add logo */}
         <Box sx={{ width: '160px' }}>Logo Placeholder</Box>
         <Typography variant="h1" sx={{ color: 'white' }}>
           Oak Grove Community Council
@@ -15,21 +15,28 @@ export const AppHeader = () => {
         <Typography variant="h4">
           Your Community Planning Organization for Oak Grove, Oregon
         </Typography>
-        {/* TODO: FB Link */}
-        <MuiLink href="">
-          <Box>FB</Box>
+        <MuiLink href="https://www.facebook.com/Oakgrovecommunitycouncil/">
+          {/* <Box>FB</Box> */}
+          <img
+            src="https://static.wixstatic.com/media/e316f544f9094143b9eac01f1f19e697.png/v1/fill/w_33,h_33,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/e316f544f9094143b9eac01f1f19e697.png"
+            alt="Facebook Page"
+          />
         </MuiLink>
       </HeaderSection>
       <HeaderSection>
-        {/* TODO:  Add props to MuiLinks */}
-        <MuiLink href="">
+        {/* TODO:  Add images to MuiLinks */}
+        <MuiLink href="https://friendsofogcc.org/" target="_blank">
           <Box>Friends Placeholder</Box>
         </MuiLink>
-        <MuiLink href="">
+        <MuiLink
+          href="https://friendsofogcc.org/heart-of-the-community-campaign/"
+          target="_blank"
+        >
           <Box>Heart Placeholder</Box>
         </MuiLink>
       </HeaderSection>
       <HeaderSection>
+        {/* TODO: Add hrefs to sherrif dept and newsletter */}
         <Button href="" variant="contained" color="error">
           Sheriff's Dept. Statistics
         </Button>
