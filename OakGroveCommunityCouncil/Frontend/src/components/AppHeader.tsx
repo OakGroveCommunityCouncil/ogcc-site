@@ -16,11 +16,11 @@ export const AppHeader = () => {
           Your Community Planning Organization for Oak Grove, Oregon
         </Typography>
         <MuiLink href="https://www.facebook.com/Oakgrovecommunitycouncil/">
-          {/* <Box>FB</Box> */}
-          <img
-            src="https://static.wixstatic.com/media/e316f544f9094143b9eac01f1f19e697.png/v1/fill/w_33,h_33,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/e316f544f9094143b9eac01f1f19e697.png"
+          <Box>FB</Box>
+          {/* <img
+            src="TODO: path to static asset goes here"
             alt="Facebook Page"
-          />
+          /> */}
         </MuiLink>
       </HeaderSection>
       <HeaderSection>
@@ -64,6 +64,7 @@ export const AppHeader = () => {
 
 const HeaderSection = styled(Box)({
   display: 'flex',
+  flexWrap: 'wrap',
   alignItems: 'center',
   justifyContent: 'center',
   gap: '24px',
