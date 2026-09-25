@@ -6,15 +6,14 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import '../styles.css'
 import { AppHeader } from '#/components/AppHeader'
 import { AppFooter } from '#/components/AppFooter'
-import { ThemeProvider, useTheme } from '@mui/material'
+import { ThemeProvider } from '@mui/material'
+import { theme } from '#/theme'
 
 export const Route = createRootRoute({
   component: RootComponent,
 })
 
 function RootComponent() {
-  const theme = useTheme()
-
   return (
     <>
       <ThemeProvider theme={theme}>
