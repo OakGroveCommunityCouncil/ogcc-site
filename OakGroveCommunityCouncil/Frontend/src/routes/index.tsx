@@ -12,6 +12,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({ component: Home })
 
+// TODO: Add background image once static assets are added.
 function Home() {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
