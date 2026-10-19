@@ -2,10 +2,10 @@ import { Box, Link, List, ListItem, styled, Typography } from '@mui/material'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/about')({
-  component: RouteComponent,
+  component: AboutPage,
 })
 
-function RouteComponent() {
+function AboutPage() {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <AboutContainer>
@@ -19,13 +19,13 @@ function RouteComponent() {
               County and part of the greater Portland metropolitan area. For
               statistical purposes, the United States Census Bureau has defined
               Oak Grove as a census-designated place (CDP). The population was
-              16,629 at{' '}
+              17,290 at{' '}
               <Link
-                href="https://en.wikipedia.org/wiki/Oak_Grove,_Oregon"
+                href="https://www.census.gov/quickfacts/fact/table/oakgrovecdporegon/POP010220#POP010220"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                the 2010 census
+                the 2020 census
               </Link>
               .
             </Typography>
@@ -67,14 +67,18 @@ function RouteComponent() {
               Portland, OR. If you are new to the area, you may have been told
               you moved into or purchased a property in Milwaukie or Portland,
               when in fact it is in unincorporated Oak Grove. Oak Grove zip
-              codes include 97222, 97267 and 97268 (P.O. boxes). Check CMap to
-              find out in which CPO you reside.
+              codes include 97222, 97267 and 97268 (P.O. boxes).{' '}
+              <Link
+                href="https://experience.arcgis.com/experience/12d4ff5149934787bee23cf84cd35fe6"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Check CMap
+              </Link>{' '}
+              to find out in which CPO you reside.
             </Typography>
           </ContentContainer>
           <ContentContainer>
-            <Typography variant="h5" color="primary">
-              Government, Services and Taxes
-            </Typography>
             <Box
               component="img"
               // TODO: alt
@@ -85,6 +89,9 @@ function RouteComponent() {
                 height: 150,
               }}
             ></Box>
+            <Typography variant="h5" color="primary">
+              Government, Services and Taxes
+            </Typography>
             <Typography>
               Living in an unincorporated area means Oak Grove residents receive
               their services and government oversight from{' '}
